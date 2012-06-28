@@ -6,8 +6,9 @@ use strict;
 use SWF::Analysis::Header;
 use SWF::Analysis::Body;
 use SWF::Analysis::Reader;
+use SWF::Analysis::ReCompile;
 
-our $VERSION = '0.02';
+our $VERSION = '0.04';
 
 sub new {
     my $pkg = shift;
@@ -46,6 +47,12 @@ sub get {
         Body   => $self->{Body}->get,
     };
 }
+
+sub compile {
+    my $self = shift;
+
+    return SWF::Analysis::ReCompile->run(shift);
+}
 1;
 __END__
 # Below is stub documentation for your module. You'd better edit it!
@@ -57,7 +64,11 @@ SWF::Analysis - Analysis to SWF
 =head1 SYNOPSIS
 
   use SWF::Analysis;
-  SWF::Analysis->new($cfg)->run(filepath);
+  my $swf = SWF::Analysis->new();
+  my $data = $swf->run('hogehoge.swf');
+
+  #ReCompile
+  $swf->compile($data);
 
 =head1 DESCRIPTION
 
@@ -86,7 +97,7 @@ If you have a web site set up for your module, mention it here.
 
 =head1 AUTHOR
 
-yuto abe<lt>yu_abe@localdomainE<gt>
+yuto abe<lt>toward-the-dream580829@hotmail.co.jp<gt>
 
 =head1 COPYRIGHT AND LICENSE
 

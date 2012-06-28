@@ -6,3 +6,9 @@ Revision history for Perl extension SWF.
 
 0.02  Tue Jun 26 18:59:55 2012
 	- Bug fix
+
+0.03  Tue Jun 27 13:22:46 2012  
+	- Bug fix
+
+0.04  Tue Jun 28 11:11:17 2012
+	- add recompile
