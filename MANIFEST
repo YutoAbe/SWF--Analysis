@@ -8,3 +8,5 @@ lib/SWF/Analysis/Header.pm
 lib/SWF/Analysis/Body.pm
 lib/SWF/Analysis/Reader.pm
 lib/SWF/Analysis/ReCompile.pm
+lib/SWF/Analysis/Structure.pm
+lib/SWF/Analysis/Tags.pm

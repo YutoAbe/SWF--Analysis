@@ -71,8 +71,8 @@ sub makeBody {
     for my $no ( 1 .. @$body ) {
         $bin .= $self->tagHead( $body->[ $no - 1 ]->{Type},
             $body->[ $no - 1 ]->{Length} );
-        $bin .= $body->[ $no - 1 ]->{Body}
-          if defined $body->[ $no - 1 ]->{Body};
+        $bin .= $body->[ $no - 1 ]->{Value}
+          if defined $body->[ $no - 1 ]->{Value};
     }
 
     return $bin;
