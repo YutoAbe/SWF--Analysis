@@ -15,3 +15,6 @@ Revision history for Perl extension SWF.
 
 0.05  Tue Jun 28 15:48:30 2012
 	- add the view analysis data
+
+0.06  Tue Jun 28 18:08:28 2012
+	- separete view class

@@ -10,3 +10,4 @@ lib/SWF/Analysis/Reader.pm
 lib/SWF/Analysis/ReCompile.pm
 lib/SWF/Analysis/Structure.pm
 lib/SWF/Analysis/Tags.pm
+lib/SWF/Analysis/View.pm

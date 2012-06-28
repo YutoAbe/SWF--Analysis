@@ -8,7 +8,7 @@ use SWF::Analysis::Body;
 use SWF::Analysis::Reader;
 use SWF::Analysis::ReCompile;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 sub new {
     my $pkg = shift;
@@ -53,36 +53,6 @@ sub compile {
 
     return SWF::Analysis::ReCompile->run(shift);
 }
-
-sub check {
-    my $self = shift;
-
-    return {
-        Header => $self->{Header}->get,
-        Body   => $self->checkTag( $self->{Body}->get ),
-    };
-}
-
-sub checkTag {
-    my $self = shift;
-    my $tag  = shift;
-
-    my $type_ref = ref($tag);
-    if ( $type_ref eq "ARRAY" ) {
-        foreach my $no ( 1 .. @$tag ) {
-            $tag->[ $no - 1 ] = $self->checkTag( $tag->[ $no - 1 ] );
-        }
-    }
-    elsif ( $type_ref eq "HASH" ) {
-        foreach my $key ( keys %$tag ) {
-            if ( $key eq 'Value' && defined $tag->{$key} ) {
-                $tag->{$key} = unpack "H*", $tag->{$key};
-            }
-        }
-    }
-
-    return $tag;
-}
 1;
 __END__
 # Below is stub documentation for your module. You'd better edit it!
@@ -97,11 +67,12 @@ SWF::Analysis - Analysis to SWF
   my $swf = SWF::Analysis->new();
   my $data = $swf->run('hogehoge.swf');
 
-  #View Analysis Data
-  $swf->check;
-
   #ReCompile
   $swf->compile($data);
+
+  #View Analysis Data
+  use SWF::Analysis::View;
+  SWF::Analysis::View->run($data);
 
 =head1 DESCRIPTION
 
