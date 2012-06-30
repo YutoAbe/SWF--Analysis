@@ -19,8 +19,7 @@ use constant TAG_NAME => {
     12 => 'DoAction',
     13 => 'DefineFontInfo',
     14 => 'DefineSound',
-    15 => 'StartSound',
-    15 => 'StopSound',
+    15 => 'StartAndStop Sound',
     17 => 'DefineButtonSound',
     18 => 'SoundStreamHead',
     19 => 'SoundStreamBlock',
@@ -103,15 +102,16 @@ sub checkTag {
         }
     }
     elsif ( $type_ref eq "HASH" ) {
-        foreach my $key ( keys %$tag ) {
-            if ( $key eq 'Value' && defined $tag->{$key} ) {
-                $tag->{$key} = unpack "H*", $tag->{$key};
-            }elsif ( $key eq 'Type' && defined $tag->{$key} ) {
-                $tag->{'Name'} = TAG_NAME->{$tag->{$key}};
-            }
+        if(defined $tag->{Type}){
+            $tag->{Name} = TAG_NAME->{$tag->{Type}};
+
+            #case : Define Sprite
+            $tag->{Tags} = $self->checkTag( $tag->{Tags} ) if($tag->{Type} == 39);
+        }
+        if (defined $tag->{Value} ) {
+            $tag->{Value} = unpack "H*", $tag->{Value};
         }
     }
-
     return $tag;
 }
 1;

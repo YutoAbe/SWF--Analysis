@@ -53,11 +53,12 @@ sub makeHead {
     $length += 3 + 1 + 4 + $frameLength + 2 + 2;
 
     my $bin = $head->{Signature};
-    $bin  .= $self->setUI8( $head->{Version} );
-    $bin  .= $self->setUI32LE($length);
-    $bin  .= pack "H*" , (sprintf "%0" . ( $frameLength * 2 ) . "X", $frameSize);
-    $bin  .= $self->setUI16LE( $head->{FrameRate} * 0x0100 );
-    $bin  .= $self->setUI16LE( $head->{FrameCount} );
+    $bin .= $self->setUI8( $head->{Version} );
+    $bin .= $self->setUI32LE($length);
+    $bin .= pack "H*",
+      ( sprintf "%0" . ( $frameLength * 2 ) . "X", $frameSize );
+    $bin .= $self->setUI16LE( $head->{FrameRate} * 0x0100 );
+    $bin .= $self->setUI16LE( $head->{FrameCount} );
 
     return $bin;
 }
@@ -69,12 +70,19 @@ sub makeBody {
     my $bin = "";
 
     for my $no ( 1 .. @$body ) {
-        $bin .= $self->tagHead( $body->[ $no - 1 ]->{Type},
-            $body->[ $no - 1 ]->{Length} );
-        $bin .= $body->[ $no - 1 ]->{Value}
-          if defined $body->[ $no - 1 ]->{Value};
+        if ( $body->[ $no - 1 ]->{Type} == 39 ) {
+            my $tagbin = $self->makeBody( $body->[ $no - 1 ]->{Tags} );
+            $bin .=
+              $self->tagHead( $body->[ $no - 1 ]->{Type}, length($tagbin) + 4 );
+            $bin .= $body->[ $no - 1 ]->{Value} . $tagbin;
+        }
+        else {
+            $bin .= $self->tagHead( $body->[ $no - 1 ]->{Type},
+                $body->[ $no - 1 ]->{Length} );
+            $bin .= $body->[ $no - 1 ]->{Value}
+              if defined $body->[ $no - 1 ]->{Value};
+        }
     }
-
     return $bin;
 }
 

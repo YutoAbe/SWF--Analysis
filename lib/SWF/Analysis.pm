@@ -8,7 +8,7 @@ use SWF::Analysis::Body;
 use SWF::Analysis::Reader;
 use SWF::Analysis::ReCompile;
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 sub new {
     my $pkg = shift;

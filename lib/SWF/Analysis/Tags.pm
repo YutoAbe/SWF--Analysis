@@ -24,10 +24,24 @@ sub run {
                 {
                     Type   => $type,
                     Length => $length,
-                    Value   => undef,
+                    Value  => undef,
                 }
             );
             last;
+        }
+        elsif ( $type == 39 ) {
+        # case : DefineSprite
+        # id and frame_count is 4byte
+            my $body = $reader->getData(4);
+            push(
+                @tags,
+                {
+                    Type   => $type,
+                    Length => $length,
+                    Value  => $body,
+                    Tags   => $self->run($reader),
+                }
+            );
         }
         else {
             my $body = $reader->getData($length);
