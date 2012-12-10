@@ -4,6 +4,7 @@ use warnings;
 use strict;
 
 use POSIX;
+use Compress::Zlib;
 
 sub new {
     my $pkg = shift;
@@ -11,6 +12,8 @@ sub new {
         io          => undef,
         surplus     => undef,
         surplus_bit => undef,
+        complessed  => undef,
+        comp_bin    => undef
     }, $pkg;
 }
 
@@ -39,10 +42,23 @@ sub skip {
     $self->getData(shift);
 }
 
+sub thawing {
+    my $self = shift;
+    my $buf  = undef;
+    while ( my $readbuf = $self->getData(1024) ) {
+        $buf .= $readbuf;
+    }
+    my $data = uncompress($buf) or die "file not uncompressed:$!";
+
+    $self->{complessed} = 1;
+    $self->{comp_bin}   = $data;
+}
+
 sub getData {
     my $self = shift;
-    my $data;
-    read $self->{io}, $data, shift;
+    my $data = undef;
+    if ( defined $self->{compressed} ) { read $self->{io}, $data, shift; }
+    else { $data = substr( $self->{comp_bin}, 0, shift, '' ); }
     return $data;
 }
 

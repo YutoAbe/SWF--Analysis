@@ -23,6 +23,9 @@ sub decompile {
 
     $self->{Signature} = $reader->getData(3);
     $self->{Version}   = $reader->getUI8();
+
+    $reader->thawing if $self->{Signature} eq 'CWS';
+
     $self->{Length}    = $reader->getUI32LE();
 
     my $NBits = $reader->getUIBits(5);
