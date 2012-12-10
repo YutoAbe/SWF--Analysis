@@ -21,3 +21,6 @@ Revision history for Perl extension SWF.
 
 0.07  Tue Jun 30 17:13:01 2012
 	- analysis TagNumber:39 DefineSprite
+
+0.08  Tue Dec 10 14:43:42 2012
+	- add cws reader

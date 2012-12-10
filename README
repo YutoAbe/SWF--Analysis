@@ -1,4 +1,4 @@
-SWF version 0.07
+SWF version 0.08
 ================
 
 The README is used to introduce the module and provide instructions on
@@ -26,6 +26,7 @@ DEPENDENCIES
 This module requires these other modules and libraries:
 
   POSIX
+  Compress::Zlib
 
 COPYRIGHT AND LICENCE
 
